@@ -374,11 +374,6 @@ y_pred = rf_model.predict(x_test)
 print(classification_report(y_test, y_pred))
 
 
-# In[80]:
-
-
-get_ipython().system(' pip install lightgbm')
-
 
 # In[81]:
 
