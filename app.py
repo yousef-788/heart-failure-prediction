@@ -3,7 +3,7 @@
 
 # ### Import Liabraries
 
-# In[54]:
+# In[91]:
 
 
 import pandas as pd
@@ -18,7 +18,7 @@ warnings.filterwarnings('ignore')
 
 # ### Import data
 
-# In[55]:
+# In[92]:
 
 
 data=pd.read_csv(r"C:\Users\m\Desktop\ML code\Final project\heart_failure_clinical_records_dataset.csv")
@@ -26,50 +26,50 @@ data=pd.read_csv(r"C:\Users\m\Desktop\ML code\Final project\heart_failure_clinic
 
 # ### Data Preprocessing 
 
-# In[56]:
+# In[93]:
 
 
 data.head()
 
 
-# In[57]:
+# In[94]:
 
 
 data.info()
 
 
-# In[58]:
+# In[95]:
 
 
 data.isnull().sum()
 
 
-# In[59]:
+# In[96]:
 
 
 data.shape
 
 
-# In[60]:
+# In[97]:
 
 
 corr=data.corr()
 sns.heatmap(corr)
 
 
-# In[61]:
+# In[98]:
 
 
 data.describe()
 
 
-# In[62]:
+# In[99]:
 
 
 data.columns
 
 
-# In[63]:
+# In[100]:
 
 
 data.duplicated().sum()
@@ -77,7 +77,7 @@ data.duplicated().sum()
 
 # ### Removing Outliers
 
-# In[87]:
+# In[101]:
 
 
 numeric_cols = data.select_dtypes(include='number').columns
@@ -91,7 +91,7 @@ for i, col in enumerate(data[numeric_cols].columns, 1):
 plt.show()
 
 
-# In[64]:
+# In[102]:
 
 
 # drop outliers using Z-score method
@@ -106,7 +106,7 @@ print("Shape after dropping outliers:", data.shape)
 
 # ### Splitting Data
 
-# In[65]:
+# In[103]:
 
 
 x=data.drop('DEATH_EVENT',axis=1)
@@ -121,26 +121,15 @@ print(x_test.shape)
 print(y_test.shape)
 
 
-# In[66]:
+# In[104]:
 
 
 print(np.bincount(y))
 
 
-# ### Standard Normalization
-
-# In[67]:
-
-
-from sklearn.preprocessing import StandardScaler
-scaler=StandardScaler()
-x_train=scaler.fit_transform(x_train)
-x_test=scaler.transform(x_test)
-
-
 # ### Applying PCA
 
-# In[68]:
+# In[105]:
 
 
 from sklearn.decomposition import PCA
@@ -148,7 +137,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 scores = []
-n_components_list = range(1, 12)  # جرّب من 1 لـ 11
+n_components_list = range(1, 12) 
 
 for n in n_components_list:
     pca = PCA(n_components=n)
@@ -165,7 +154,7 @@ plt.grid(True)
 plt.show()
 
 
-# In[69]:
+# In[106]:
 
 
 from sklearn.decomposition import PCA
@@ -177,17 +166,28 @@ print(x_train_pca.shape)
 print(x_test_pca.shape)
 
 
+# ### Standard Normalization
+
+# In[107]:
+
+
+from sklearn.preprocessing import StandardScaler
+scaler=StandardScaler()
+x_train=scaler.fit_transform(x_train)
+x_test=scaler.transform(x_test)
+
+
 # # MODEL
 
 # # Logistic regression
 
-# In[70]:
+# In[108]:
 
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix
 
-model_LR=LR=LogisticRegression(max_iter=1000,solver='lbfgs')
+model_LR=LR=LogisticRegression(max_iter=500,solver='liblinear')
 LR.fit(x_train,y_train)
 
 y_pred = model_LR.predict(x_test)
@@ -202,7 +202,7 @@ plt.show()
 
 # # SVM
 
-# In[71]:
+# In[109]:
 
 
 from sklearn.svm import SVC
@@ -233,44 +233,44 @@ plt.show()
 
 # # naive bayes
 
-# In[72]:
+# In[110]:
 
 
 from sklearn.naive_bayes import GaussianNB
-model = GaussianNB()
-model.fit(x_train, y_train)
-y_predict = model.predict(x_test)
+model_nb = GaussianNB()
+model_nb.fit(x_train, y_train)
+y_predict = model_nb.predict(x_test)
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
-cr=classification_report(y_test,y_pred)
+cr=classification_report(y_test,y_predict)
 print(cr)
-sns.heatmap(confusion_matrix(y_test,y_pred), annot=True)
+sns.heatmap(confusion_matrix(y_test,y_predict), annot=True)
 plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.title("Confusion Matrix")
 plt.show()
-acc=accuracy_score(y_test,y_pred)
+acc=accuracy_score(y_test,y_predict)
 print(acc)
 
 
 # # KNN
 
-# In[73]:
+# In[111]:
 
 
 from sklearn.neighbors import KNeighborsClassifier
 knn=KNeighborsClassifier(n_neighbors=5)
 knn.fit(x_train,y_train)
 
-y_pred_=knn.predict(x_test)
+y_predict=knn.predict(x_test)
 
-cr=classification_report(y_test,y_pred_)
+cr=classification_report(y_test,y_predict)
 print(cr)
-sns.heatmap(confusion_matrix(y_test,y_pred), annot=True)
+sns.heatmap(confusion_matrix(y_test,y_predict), annot=True)
 plt.xlabel("Predicted")
 plt.ylabel("Actual")
 plt.title("Confusion Matrix")
 plt.show()
-acc=accuracy_score(y_test,y_pred)
+acc=accuracy_score(y_test,y_predict)
 print(acc)
 
 
@@ -278,7 +278,7 @@ print(acc)
 
 # ### Without PCA
 
-# In[74]:
+# In[112]:
 
 
 from tensorflow.keras import layers
@@ -304,7 +304,7 @@ model_MLP.fit(x_train,y_train,epochs=10, batch_size=32,callbacks=[early_stop],va
 
 # ### With PCA
 
-# In[75]:
+# In[113]:
 
 
 from tensorflow.keras import layers
@@ -334,7 +334,7 @@ model.fit(x_train_pca,y_train,epochs=50,batch_size=32,callbacks=[early_stop],val
 
 # ### Without PCA
 
-# In[76]:
+# In[114]:
 
 
 from sklearn.ensemble import AdaBoostClassifier
@@ -355,48 +355,38 @@ y_pred = model_DT.predict(x_test)
 print(classification_report(y_test, y_pred))
 
 
-# In[77]:
+# In[115]:
 
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report
 
-# Create Random Forest model
 rf_model = RandomForestClassifier(n_estimators=100, random_state=42, class_weight='balanced')
 
-# Train the model
 rf_model.fit(x_train, y_train)
 
-# Predict on test set
 y_pred = rf_model.predict(x_test)
 
-# Evaluate performance
 print(classification_report(y_test, y_pred))
 
 
-
-# In[81]:
+# In[116]:
 
 
 import lightgbm as lgb
 from sklearn.metrics import classification_report
 
-# Create LightGBM model
 lgb_model = lgb.LGBMClassifier(num_leaves=31, n_estimators=100, class_weight='balanced', random_state=42)
 
-# Train the model
 lgb_model.fit(x_train, y_train)
 
-# Predict on test set
 y_pred = lgb_model.predict(x_test)
-
-# Evaluate performance
 print(classification_report(y_test, y_pred))
 
 
 # ### With PCA
 
-# In[78]:
+# In[117]:
 
 
 from sklearn.ensemble import AdaBoostClassifier
@@ -410,7 +400,7 @@ y_pred = model.predict(x_test_pca)
 print(classification_report(y_test, y_pred))
 
 
-# In[79]:
+# In[118]:
 
 
 import gradio as gr
@@ -439,8 +429,8 @@ def predict(model_choice, age, anaemia, cpk, diabetes, ef, hbp, platelets,
         model = model_DT
         prob = model.predict_proba(x_scaled)[0][1]
     else: 
-        model = model_MLP
-        prob = model.predict(x_scaled)[0][0] 
+        model = model_nb
+        prob = model.predict_proba(x_scaled)[0][1]
     
     pred = int(prob > 0.5)
     return f"""Prediction: {'DEATH' if pred == 1 else 'SURVIVE'}
@@ -448,7 +438,7 @@ Probability of risk: {prob*100:.2f}%
 Model used: {model_choice}"""
 
 inputs = [
-    gr.Radio(["Logistic Regression", "Decision Tree", "MLP"], label="Select Model", value="Logistic Regression"), 
+    gr.Radio(["Logistic Regression", "Decision Tree", "naive bayes"], label="Select Model", value="naive bayes"), 
     gr.Slider(30, 100, value=60, label="Age"),
     gr.Radio(["No", "Yes"], label="Anaemia", value="No"),
     gr.Slider(20, 8000, value=250, label="Creatinine Phosphokinase"),
