@@ -4,8 +4,8 @@ This repository contains a complete machine learning project for predicting the 
 
 ## 🖼️ Project Screenshot
 
-> *(Add screenshot here)*  
-> يمكنك رفع صورة لواجهة Gradio أو نموذج النتائج هنا لتوضيح شكل التطبيق.
+![Main Interface](https://github.com/yousef-788/heart-failure-prediction/blob/master/assets/Screenshot%202025-07-22%20181443.png)
+
 
 ## 📊 Dataset
 
