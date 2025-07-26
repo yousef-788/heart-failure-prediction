@@ -87,9 +87,17 @@ The output is a binary prediction:
 - Gradio (for UI)  
 - Jupyter Notebook
 
-## 👨‍💻 Author
+## 💻 Author
 
-[Yousef Hamdy](https://www.linkedin.com/in/yousef-hamdy-ee/)
+**Yousef Hamdy**  
+[GitHub](https://github.com/yousef-788)  
+[LinkedIn](https://www.linkedin.com/in/yousef-hamdy-ee)
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
 
 ---
 
